@@ -1,5 +1,5 @@
 ---
-# 被监听的 ConfigMap
+# ConfigMap to watch
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -9,7 +9,7 @@ data:
   APP_COLOR: "blue"
   APP_PORT: "8080"
 ---
-# 关联的 Deployment
+# Deployment to restart when the ConfigMap changes
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -29,7 +29,7 @@ spec:
       - name: nginx
         image: nginx:alpine
 ---
-# ConfigWatcher CR：监听 app-config，变化时重启 demo-app
+# ConfigWatcher CR: watch app-config and restart demo-app on change
 apiVersion: apps.example.com/v1alpha1
 kind: ConfigWatcher
 metadata:
