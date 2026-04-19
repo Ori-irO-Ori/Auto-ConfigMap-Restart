@@ -16,37 +16,34 @@ ConfigMap updated  →  operator detects change  →  Deployment rolling restart
 
 - Kubernetes 1.24+
 - kubectl
+- Docker
+- Go 1.23+
 
-## Installation
-
-### Option A: Use the pre-built image (recommended)
-
-**1. Install the CRD:**
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/Ori-irO-Ori/Auto-ConfigMap-Restart/main/config/crd/bases/apps.example.com_configwatchers.yaml
-```
-
-**2. Deploy the operator:**
-
-```bash
-kubectl apply -f https://raw.githubusercontent.com/Ori-irO-Ori/Auto-ConfigMap-Restart/main/config/manager/manager.yaml
-```
-
-The operator will be running in your cluster using the pre-built image at `ghcr.io/ori-iro-ori/auto-configmap-restart:latest`.
-
----
-
-### Option B: Build and deploy your own image
+## Getting Started
 
 ```bash
 git clone https://github.com/Ori-irO-Ori/Auto-ConfigMap-Restart.git
 cd Auto-ConfigMap-Restart
+```
+
+**Install the CRD:**
+
+```bash
+kubectl apply -f config/crd/bases/apps.example.com_configwatchers.yaml
+```
+
+**Build and deploy to your cluster:**
+
+```bash
 make docker-build docker-push IMG=<your-registry>/auto-configmap-restart:latest
 make deploy IMG=<your-registry>/auto-configmap-restart:latest
 ```
 
----
+**Or run locally against your cluster:**
+
+```bash
+go run ./cmd/main.go
+```
 
 ## Usage
 
