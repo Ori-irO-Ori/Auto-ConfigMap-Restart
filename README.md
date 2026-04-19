@@ -34,8 +34,8 @@ go run ./cmd/main.go
 **Build and deploy to a cluster:**
 
 ```bash
-make docker-build docker-push IMG=<your-registry>/auto-configmap-restart:latest
-make deploy IMG=<your-registry>/auto-configmap-restart:latest
+make docker-build docker-push IMG=ghcr.io/ori-iro-ori/auto-configmap-restart:latest
+make deploy IMG=ghcr.io/ori-iro-ori/auto-configmap-restart:latest
 ```
 
 ## Usage
