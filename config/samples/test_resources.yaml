@@ -1,0 +1,41 @@
+---
+# 被监听的 ConfigMap
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+  namespace: default
+data:
+  APP_COLOR: "blue"
+  APP_PORT: "8080"
+---
+# 关联的 Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: demo-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: demo-app
+  template:
+    metadata:
+      labels:
+        app: demo-app
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:alpine
+---
+# ConfigWatcher CR：监听 app-config，变化时重启 demo-app
+apiVersion: apps.example.com/v1alpha1
+kind: ConfigWatcher
+metadata:
+  name: configwatcher-sample
+  namespace: default
+spec:
+  configMapName: app-config
+  deployments:
+    - demo-app

@@ -1,0 +1,75 @@
+---
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  annotations:
+    controller-gen.kubebuilder.io/version: v0.17.2
+  name: configwatchers.apps.example.com
+spec:
+  group: apps.example.com
+  names:
+    kind: ConfigWatcher
+    listKind: ConfigWatcherList
+    plural: configwatchers
+    singular: configwatcher
+  scope: Namespaced
+  versions:
+  - name: v1alpha1
+    schema:
+      openAPIV3Schema:
+        description: ConfigWatcher is the Schema for the configwatchers API.
+        properties:
+          apiVersion:
+            description: |-
+              APIVersion defines the versioned schema of this representation of an object.
+              Servers should convert recognized schemas to the latest internal value, and
+              may reject unrecognized values.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
+            type: string
+          kind:
+            description: |-
+              Kind is a string value representing the REST resource this object represents.
+              Servers may infer this from the endpoint the client submits requests to.
+              Cannot be updated.
+              In CamelCase.
+              More info: https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
+            type: string
+          metadata:
+            type: object
+          spec:
+            description: ConfigWatcherSpec defines the desired state of ConfigWatcher.
+            properties:
+              configMapName:
+                description: ConfigMapName is the name of the ConfigMap to watch.
+                type: string
+              deployments:
+                description: Deployments is the list of Deployment names to restart
+                  when the ConfigMap changes.
+                items:
+                  type: string
+                type: array
+            required:
+            - configMapName
+            - deployments
+            type: object
+          status:
+            description: ConfigWatcherStatus defines the observed state of ConfigWatcher.
+            properties:
+              lastRestartedAt:
+                description: LastRestartedAt is the timestamp of the last triggered
+                  restart.
+                format: date-time
+                type: string
+              lastSyncedResourceVersion:
+                description: LastSyncedResourceVersion is the ConfigMap ResourceVersion
+                  at the last restart.
+                type: string
+              message:
+                description: Message describes the result of the last reconciliation.
+                type: string
+            type: object
+        type: object
+    served: true
+    storage: true
+    subresources:
+      status: {}
