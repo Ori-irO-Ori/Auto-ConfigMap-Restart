@@ -19,24 +19,34 @@ ConfigMap updated  →  operator detects change  →  Deployment rolling restart
 
 ## Installation
 
-**Install the CRD:**
+### Option A: Use the pre-built image (recommended)
+
+**1. Install the CRD:**
 
 ```bash
-kubectl apply -f config/crd/bases/apps.example.com_configwatchers.yaml
+kubectl apply -f https://raw.githubusercontent.com/Ori-irO-Ori/Auto-ConfigMap-Restart/main/config/crd/bases/apps.example.com_configwatchers.yaml
 ```
 
-**Run the operator locally (for development):**
+**2. Deploy the operator:**
 
 ```bash
-go run ./cmd/main.go
+kubectl apply -f https://raw.githubusercontent.com/Ori-irO-Ori/Auto-ConfigMap-Restart/main/config/manager/manager.yaml
 ```
 
-**Build and deploy to a cluster:**
+The operator will be running in your cluster using the pre-built image at `ghcr.io/ori-iro-ori/auto-configmap-restart:latest`.
+
+---
+
+### Option B: Build and deploy your own image
 
 ```bash
-make docker-build docker-push IMG=ghcr.io/ori-iro-ori/auto-configmap-restart:latest
-make deploy IMG=ghcr.io/ori-iro-ori/auto-configmap-restart:latest
+git clone https://github.com/Ori-irO-Ori/Auto-ConfigMap-Restart.git
+cd Auto-ConfigMap-Restart
+make docker-build docker-push IMG=<your-registry>/auto-configmap-restart:latest
+make deploy IMG=<your-registry>/auto-configmap-restart:latest
 ```
+
+---
 
 ## Usage
 
